@@ -1192,7 +1192,7 @@ body {
         flex-shrink: 1; /* Permite que o wrapper encolha */
         flex-basis: auto; /* Base flexível */
         min-height: 40vh; /* Altura mínima para não ficar invisível */
-        max-height: calc(100% - 130px); /* Tenta deixar espaço para o header e o companheiro. **Ajustar '130px' se o companheiro ainda for cortado ou houver muito espaço** */
+        max-height: calc(100% - 140px); /* Tenta deixar espaço para o header e o companheiro. **Ajustar '140px' se o companheiro ainda for cortado ou houver muito espaço** */
         flex-direction: column;
         margin: 0 auto;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra mais leve */
@@ -1314,6 +1314,8 @@ body {
         width: 100%;
         padding: 0 8px;
         box-sizing: border-box;
+        min-height: 80px; /* Garante que a área do companheiro tenha um mínimo de altura */
+        flex-shrink: 0; /* Impede que essa área encolha demais, mantendo-a visível */
     }
 
     .magical-companion-img {
@@ -1321,16 +1323,22 @@ body {
         height: auto;
         margin-right: 5px; /* Espaço entre imagem e balão */
         flex-shrink: 0;
+        display: block; /* Garante que a imagem se comporte como bloco */
+        object-fit: contain; /* Garante que a imagem caiba no seu container */
     }
 
     .companion-speech-bubble {
-        font-size: 0.7em; /* Fonte muito pequena para o balão */
-        padding: 6px 10px; /* Padding menor */
+        font-size: 0.75em; /* Fonte ligeiramente maior que 0.7em */
+        padding: 6px 10px;
         margin-top: 0;
         margin-bottom: 0;
         text-align: left;
-        max-width: 70%; /* Permite que o balão seja mais largo, mas com limite */
+        max-width: 70%;
         flex-grow: 1;
+        min-height: 40px; /* Altura mínima para o balão de fala */
+        display: flex; /* Para centralizar texto verticalmente no balão se ele for pequeno */
+        align-items: center; /* Centraliza verticalmente o texto no balão */
+        justify-content: flex-start; /* Alinha o texto à esquerda no balão */
     }
     .companion-speech-bubble::after {
         top: 85%;
@@ -1368,13 +1376,13 @@ body {
         padding: 15px;
     }
     .secret-message-paper {
-        width: 98%; /* Ocupa mais largura */
-        max-height: 80vh; /* Aumenta um pouco a altura máxima do papel */
+        width: 98%;
+        max-height: 80vh;
         padding: 15px;
     }
     .paper-content {
-        padding: 10px; /* Padding interno menor */
-        font-size: 0.9em; /* Fonte menor */
+        padding: 10px;
+        font-size: 0.9em;
         line-height: 1.5;
     }
     .close-paper-button {
@@ -1388,12 +1396,12 @@ body {
         padding: 25px 15px;
     }
     .sanctuary-title {
-        font-size: 2.5em; /* Título menor */
+        font-size: 2.5em;
         margin-bottom: 20px;
     }
     .sanctuary-content {
         padding: 18px;
-        max-height: 55vh; /* Ajusta altura máxima */
+        max-height: 55vh;
         margin-bottom: 20px;
         flex-grow: 1;
     }
@@ -1402,12 +1410,12 @@ body {
         margin-bottom: 12px;
     }
     .sanctuary-gallery {
-        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); /* Fotos ainda menores */
+        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
         gap: 6px;
         padding: 3px;
     }
     .sanctuary-gallery img {
-        height: 60px; /* Altura fixa menor */
+        height: 60px;
     }
     .sanctuary-footer-message {
         font-size: 1.6em;
