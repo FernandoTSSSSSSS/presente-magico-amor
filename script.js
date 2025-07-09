@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameScreen = document.getElementById('gameScreen');
     const loveProgressMeter = document.getElementById('loveProgressMeter');
     const progressText = document.getElementById('progressText');
-    const lifeCrystalsContainer = document = document.getElementById('lifeCrystalsContainer');
+    const lifeCrystalsContainer = document.getElementById('lifeCrystalsContainer'); // Corrigido a atribuição aqui
     let lifeCrystals = lifeCrystalsContainer ? lifeCrystalsContainer.querySelectorAll('.life-crystal') : [];
     const magicalPagesWrapper = document.getElementById('magicalPagesWrapper');
     const currentPageContent = document.getElementById('currentPageContent');
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let lockUnlocked = false;
 
     // Estado atual do companheiro (neutro ou triste)
-    let companionState = 'neutro'; // MUDANÇA AQUI: de 'idle' para 'neutro'
+    let companionState = 'neutro';
 
     // --- Variáveis para Arrastar e Soltar ---
     let isDragging = false;
@@ -272,9 +272,6 @@ document.addEventListener('DOMContentLoaded', () => {
         isDragging = true;
         currentDraggable = magicKeyCharm; // Define explicitamente a chave como arrastável
 
-        // Garante que a chave esteja visível antes de arrastar
-        magicKeyCharmContainer.classList.add('visible');
-
         // Adiciona classe para estilo de arrasto
         currentDraggable.classList.add('dragging');
 
@@ -284,8 +281,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Calcula o offset do mouse/toque em relação ao elemento
         const rect = currentDraggable.getBoundingClientRect();
-        offsetX = (e.clientX || e.touches[0].clientX) - rect.left;
-        offsetY = (e.clientY || e.touches[0].clientY) - rect.top;
+        // Garante compatibilidade com mouse e touch
+        offsetX = (e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0)) - rect.left;
+        offsetY = (e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0)) - rect.top;
 
         // Impede o comportamento padrão de arrasto do navegador (especialmente para mobile)
         e.preventDefault();
@@ -295,8 +293,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isDragging || !currentDraggable) return;
 
         // Calcula a nova posição do elemento
-        let x = (e.clientX || e.touches[0].clientX) - offsetX;
-        let y = (e.clientY || e.touches[0].clientY) - offsetY;
+        let x = (e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0)) - offsetX;
+        let y = (e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0)) - offsetY;
 
         // Limita o arrasto dentro da janela visível
         x = Math.max(0, Math.min(x, window.innerWidth - currentDraggable.offsetWidth));
@@ -316,8 +314,8 @@ document.addEventListener('DOMContentLoaded', () => {
         currentDraggable.style.zIndex = '';
 
         // Obtenha as coordenadas do ponto onde o arrasto parou
-        const dropX = e.clientX || e.changedTouches[0].clientX;
-        const dropY = e.clientY || e.changedTouches[0].clientY;
+        const dropX = e.clientX || (e.changedTouches && e.changedTouches[0] ? e.changedTouches[0].clientX : e.clientX);
+        const dropY = e.clientY || (e.changedTouches && e.changedTouches[0] ? e.changedTouches[0].clientY : e.clientY);
 
         // Obtenha a posição e dimensões do cadeado alvo (postQuizLockScreen)
         const lockRect = guardianHeartLockPostQuiz.getBoundingClientRect();
@@ -333,7 +331,10 @@ document.addEventListener('DOMContentLoaded', () => {
             currentDraggable.style.position = 'relative'; // Volta a ser relativo ao contêiner
             currentDraggable.style.left = ''; // Limpa a posição absoluta
             currentDraggable.style.top = ''; // Limpa a posição absoluta
-            magicKeyCharmContainer.appendChild(currentDraggable); // Recoloca no container original
+            // Reanexa ao container original se tiver sido movido (garantia)
+            if (magicKeyCharmContainer && !magicKeyCharmContainer.contains(currentDraggable)) {
+                magicKeyCharmContainer.appendChild(currentDraggable);
+            }
         }
         currentDraggable = null;
     };
@@ -346,6 +347,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- Lógica Principal do Jogo ---
+
+    // Função para pré-carregar imagens
+    const preloadImages = (imageUrls) => {
+        imageUrls.forEach(url => {
+            const img = new Image();
+            img.src = url;
+            img.onerror = () => console.warn(`Falha ao carregar imagem: ${url}`); // Para debug
+        });
+    };
 
     const init = () => {
         totalQuestions = questions.length;
@@ -361,7 +371,19 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.sanctuary-footer-message').textContent = `Com todo o meu amor, ${yourName}`;
 
         // Define o companheiro como neutro no início (PNG)
-        magicalCompanion.src = `comp_neutro.png`; // MUDANÇA AQUI
+        magicalCompanion.src = `comp_neutro.png`;
+
+        // --- Pré-carregamento de todas as imagens usadas no jogo ---
+        const imagesToPreload = [];
+        questions.forEach(q => {
+            if (q.background) imagesToPreload.push(q.background);
+            if (q.questionImage) imagesToPreload.push(q.questionImage);
+        });
+        finalPhotos.forEach(photo => imagesToPreload.push(photo));
+        sanctuaryPhotos.forEach(photo => imagesToPreload.push(photo));
+        // Adicione outras imagens que podem ser carregadas via CSS background-image se não estiverem já lá
+        imagesToPreload.push('favicon.png', 'coracao.png', 'comp_neutro.png', 'comp_neutro_fala.png', 'comp_triste.png', 'comp_triste_fala.png', 'quebrado.png', 'falling_heart.png', 'falling_sparkle.png');
+        preloadImages(imagesToPreload);
     };
 
     const handleStartJourney = () => {
@@ -377,7 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
             switchStage('preQuizLockScreen'); // Vai para a tela do cadeado antes do quiz
             dreamBookCover.style.display = 'none';
             // Mensagem inicial na tela do cadeado, com companheiro no estado 'neutro'
-            showCompanionBubble("Prove seu amor respondendo às perguntas!", 3500, 'neutro'); // MUDANÇA AQUI
+            showCompanionBubble("Prove seu amor respondendo às perguntas!", 3500, 'neutro');
         }, 1500);
     };
 
@@ -391,8 +413,8 @@ document.addEventListener('DOMContentLoaded', () => {
         lockUnlocked = false; // Garante que o cadeado comece trancado
 
         // Garante que o companheiro esteja neutro ao iniciar o quiz (PNG)
-        companionState = 'neutro'; // MUDANÇA AQUI
-        magicalCompanion.src = `comp_neutro.png`; // MUDANÇA AQUI
+        companionState = 'neutro';
+        magicalCompanion.src = `comp_neutro.png`;
 
         switchStage('gameScreen'); // Vai para a tela do quiz
         loadQuestion(); // Carrega a primeira pergunta
@@ -433,7 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         button.addEventListener('click', handleAnswer);
                     });
                     // Companheiro neutro ao carregar nova pergunta (mas boca aberta ao falar)
-                    showCompanionBubble("Sua memória de fada está afiada?", 3000, 'neutro'); // MUDANÇA AQUI
+                    showCompanionBubble("Sua memória de fada está afiada?", 3000, 'neutro');
                 });
             }, 700);
         } else {
@@ -456,7 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isCorrect) {
             playAudio(audioCorrectAnswer);
             // Companheiro fica neutro
-            showCompanionBubble(currentQ.companionSpeechCorrect || "Acertou em cheio! Sua intuição é incrível!", 2500, 'neutro'); // MUDANÇA AQUI
+            showCompanionBubble(currentQ.companionSpeechCorrect || "Acertou em cheio! Sua intuição é incrível!", 2500, 'neutro');
             feedbackMessageElement.textContent = "Resposta Mágica!";
             feedbackMessageElement.className = "feedback-message show feedback-correct";
             loveProgress += (100 / totalQuestions);
@@ -474,7 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             playAudio(audioWrongAnswer);
             // Companheiro fica triste
-            showCompanionBubble(currentQ.companionSpeechWrong || "Essa magia não funcionou! Mas não desista!", 2500, 'triste'); // MUDANÇA AQUI
+            showCompanionBubble(currentQ.companionSpeechWrong || "Essa magia não funcionou! Mas não desista!", 2500, 'triste');
             feedbackMessageElement.textContent = "Caminho Errante!";
             feedbackMessageElement.className = "feedback-message show feedback-wrong";
             userLives--;
@@ -484,14 +506,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (userLives <= 0) {
                     playAudio(audioGameOverJingle);
                     // Companheiro triste no Game Over
-                    showCompanionBubble("As energias se esgotaram... Mas nosso amor é forte demais para desistir! Tente de novo!", 4000, 'triste'); // MUDANÇA AQUI
+                    showCompanionBubble("As energias se esgotaram... Mas nosso amor é forte demais para desistir! Tente de novo!", 4000, 'triste');
                     setTimeout(gameOver, 4500);
                 } else {
                     document.querySelectorAll('.answer-button').forEach(button => button.disabled = false);
                     feedbackMessageElement.classList.remove('show');
                     // Companheiro volta para neutro após a bolha sumir (se não for Game Over)
-                    magicalCompanion.src = `comp_neutro.png`; // MUDANÇA AQUI
-                    companionState = 'neutro'; // MUDANÇA AQUI
+                    magicalCompanion.src = `comp_neutro.png`;
+                    companionState = 'neutro';
                 }
             });
         }
@@ -511,7 +533,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dreamBookCover.style.display = 'flex';
         startJourneyButton.disabled = false;
         // Companheiro volta para neutro no início do jogo (PNG)
-        showCompanionBubble("Sempre há uma nova chance para o amor!", 3000, 'neutro'); // MUDANÇA AQUI
+        showCompanionBubble("Sempre há uma nova chance para o amor!", 3000, 'neutro');
     };
 
     // Função para mostrar o cadeado pós-quiz (arrastar chave)
@@ -520,7 +542,7 @@ document.addEventListener('DOMContentLoaded', () => {
         switchStage('postQuizLockScreen');
         playAudio(audioSuccessQuest);
         // Companheiro neutro ao chegar no cadeado final
-        showCompanionBubble("Você desvendou os segredos! A chave para o nosso Coração Guardião está aqui!", 3500, 'neutro'); // MUDANÇA AQUI
+        showCompanionBubble("Você desvendou os segredos! A chave para o nosso Coração Guardião está aqui!", 3500, 'neutro');
 
         if (!magicKeyCharmContainer.contains(magicKeyCharm)) {
             magicKeyCharmContainer.appendChild(magicKeyCharm);
@@ -549,7 +571,7 @@ document.addEventListener('DOMContentLoaded', () => {
         magicKeyCharmContainer.classList.remove('visible');
 
         // Companheiro neutro ao destrancar o cadeado
-        showCompanionBubble("O Coração Guardião se abriu! A magia do nosso amor é imensa!", 3500, 'neutro'); // MUDANÇA AQUI
+        showCompanionBubble("O Coração Guardião se abriu! A magia do nosso amor é imensa!", 3500, 'neutro');
 
         setTimeout(() => {
             showPhotoRevealScreen();
@@ -565,7 +587,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const shuffledPhotos = shuffleArray([...finalPhotos]);
         shuffledPhotos.forEach((photoSrc, index) => {
             const img = document.createElement('img');
-            img.src = `${photoSrc}`; 
+            img.src = `${photoSrc}`;
             img.classList.add('floating-photo');
             photoRevealArea.appendChild(img);
 
@@ -615,26 +637,27 @@ document.addEventListener('DOMContentLoaded', () => {
         sanctuaryTitle.textContent = sanctuaryTitleContent;
         sanctuaryText.innerHTML = `<p>Que cada imagem deste santuário te lembre do quanto somos especiais juntos. Este é o nosso lugar, onde o amor floresce e as memórias se tornam eternas.</p>`;
 
-        let galleryHtml = sanctuaryPhotos.map(photo => `<img src="${photo}" alt="Nossa Foto">`).join(''); 
+        let galleryHtml = sanctuaryPhotos.map(photo => `<img src="${photo}" alt="Nossa Foto">`).join('');
         sanctuaryGallery.innerHTML = galleryHtml;
 
         // Companheiro neutro no santuário
-        showCompanionBubble("Nosso Santuário Secreto está completo, meu amor!", 4000, 'neutro'); // MUDANÇA AQUI
+        showCompanionBubble("Nosso Santuário Secreto está completo, meu amor!", 4000, 'neutro');
     };
 
     // --- Inicialização ---
     init();
 });
+
 // Este código verifica se o celular ou navegador consegue usar o Service Worker (o "mágico do offline").
 // Se sim, ele "registra" seu service-worker.js quando a página carrega.
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(registration => {
-        console.log('Service Worker registrado com sucesso:', registration.scope); // Mensagem para você no console
-      })
-      .catch(err => {
-        console.log('Falha ao registrar o Service Worker:', err); // Mensagem de erro se algo der errado
-      });
-  });
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('Service Worker registrado com sucesso:', registration.scope);
+            })
+            .catch(err => {
+                console.log('Falha ao registrar o Service Worker:', err);
+            });
+    });
 }
