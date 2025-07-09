@@ -25,15 +25,21 @@
 }
 
 /* --- Base Geral --- */
-body {
+html, body {
     margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Controlado pelos filhos */
+}
+
+body {
     font-family: var(--font-body);
     background: linear-gradient(135deg, #f7d9e8, #d8b4e2, #b4e0e2); /* Gradiente de sonho */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    overflow: hidden;
     color: var(--color-text-dark);
 }
 
