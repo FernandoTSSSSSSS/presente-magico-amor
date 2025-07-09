@@ -1143,7 +1143,7 @@ body {
     #gameScreen {
         padding-top: 15px; /* Reduz o padding superior */
         justify-content: flex-start;
-        height: 100vh;
+        height: 100vh; /* Garante que a tela do jogo ocupe a altura total */
         display: flex; /* Garante que é um flex container */
         flex-direction: column; /* Organiza os filhos em coluna */
     }
@@ -1155,7 +1155,6 @@ body {
         height: 100%; /* Ocupa a altura total do #gameScreen */
         padding: 0 10px;
         box-sizing: border-box;
-        /* Adicionado para permitir que a área de jogo principal se estenda */
         flex-grow: 1;
         flex-shrink: 1;
         flex-basis: auto;
@@ -1192,13 +1191,15 @@ body {
         flex-grow: 1; /* Permite que o wrapper cresça para ocupar espaço disponível */
         flex-shrink: 1; /* Permite que o wrapper encolha */
         flex-basis: auto; /* Base flexível */
-        min-height: 50vh; /* Altura mínima razoável */
+        min-height: 40vh; /* Altura mínima para não ficar invisível */
+        max-height: calc(100% - 130px); /* Tenta deixar espaço para o header e o companheiro. **Ajustar '130px' se o companheiro ainda for cortado ou houver muito espaço** */
         flex-direction: column;
         margin: 0 auto;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra mais leve */
         border-radius: 12px; /* Arredondamento menor */
         overflow-y: auto; /* Permite scroll se o conteúdo for muito grande */
         background-position: center top;
+        display: flex; /* Adicionado para garantir o contexto de rolagem e flexibilidade */
     }
 
     /* --- Otimização das Páginas Individuais (Esquerda e Direita) --- */
@@ -1213,6 +1214,8 @@ body {
         transform: translateX(0%) !important;
         text-align: center;
         box-sizing: border-box;
+        display: flex; /* Adicionado para garantir flexbox para o conteúdo interno */
+        flex-direction: column;
     }
 
     .magical-page.left-page {
@@ -1224,7 +1227,7 @@ body {
         align-items: center;
         justify-content: center;
         min-height: 120px; /* Altura mínima reduzida para a imagem */
-        max-height: 25vh; /* Altura máxima para não tomar muito espaço */
+        max-height: 20vh; /* Altura máxima para não tomar muito espaço */
         background-color: rgba(255, 255, 255, 0.95);
         overflow: hidden; /* Garante que nada vaze */
     }
@@ -1235,11 +1238,13 @@ body {
         border-bottom-left-radius: 12px;
         border-bottom-right-radius: 12px;
         margin-top: 8px; /* Espaço menor entre as páginas */
-        min-height: 25vh; /* Altura mínima flexível */
-        flex-grow: 1; /* Permite que a página de conteúdo cresça */
+        min-height: 20vh; /* Altura mínima flexível */
+        flex-grow: 1; /* Permite que a página de conteúdo da pergunta cresça */
         justify-content: flex-start; /* Alinha conteúdo do quiz ao topo */
         background-color: rgba(255, 255, 255, 0.95);
         overflow-y: auto; /* Permite scroll se as opções de resposta forem muitas */
+        display: flex; /* Adicionado para garantir flexbox para o conteúdo interno */
+        flex-direction: column;
     }
 
     /* Desabilita animação de slide em mobile para evitar bugs */
@@ -1261,6 +1266,8 @@ body {
         transform: translateY(0);
         transition: none;
         gap: 10px; /* Reduz o espaçamento entre os elementos internos */
+        overflow-y: auto; /* Adicionado para garantir que o conteúdo possa rolar se a página for limitada */
+        flex-grow: 1; /* Permite que o conteúdo interno cresça */
     }
 
     .page-content-wrapper .question-image {
