@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Um Presente Mágico para Meu Amor! ❤️</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.png" type="image/png"> 
+	<link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="app-container">
+        <div class="background-particles"></div>
+
+        <div id="introScreen" class="app-stage active">
+            <div class="dream-book-cover" id="dreamBookCover">
+                <div class="cover-front-design">
+                    <p class="book-title">Para o Meu Amor</p>
+                    <span class="book-subtitle">Nossa História, Nosso Destino</span>
+                </div>
+            </div>
+            <button class="action-button start-journey-button" id="startJourneyButton">Começar a Jornada Mágica</button>
+        </div>
+
+        <div id="preQuizLockScreen" class="app-stage">
+            <div class="guardian-heart-display">
+                <p class="guardian-intro-text">O nosso Coração Guardião selou uma surpresa! Para abri-lo, você precisará provar seu conhecimento sobre nossa história e encontrar a chave.</p>
+                <div class="guardian-heart-lock" id="guardianHeartLockPreQuiz">
+                    <div class="lock-shine"></div>
+                    <div class="lock-body-shape"></div>
+                    <div class="lock-shackle-shape"></div>
+                    <div class="lock-keyhole-shape"></div>
+                </div>
+                <button class="action-button start-quiz-button" id="startQuizButton">Iniciar o Desafio!</button>
+            </div>
+        </div>
+
+        <div id="gameScreen" class="app-stage">
+            <div class="game-display-area">
+                <div class="game-header-ui">
+                    <div class="progress-meter-container">
+                        <div class="progress-meter-fill" id="loveProgressMeter"></div>
+                        <span class="progress-meter-text" id="progressText">0% Amor Mágico</span>
+                    </div>
+                    <div class="life-crystals-container" id="lifeCrystalsContainer">
+                        <img src="coracao.png" alt="Cristal de Vida" class="life-crystal">
+                        <img src="coracao.png" alt="Cristal de Vida" class="life-crystal">
+                        <img src="coracao.png" alt="Cristal de Vida" class="life-crystal">
+                    </div>
+                </div>
+
+                <div class="magical-pages-wrapper" id="magicalPagesWrapper">
+                    <div class="magical-page left-page"></div>
+                    <div class="magical-page right-page" id="currentPageContent">
+                        <div class="page-inner-content" id="pageInnerContent">
+                            </div>
+                    </div>
+                </div>
+
+                <div class="magical-companion-area">
+                    <img src="comp_neutro.png" alt="Seu Companheiro Mágico" id="magicalCompanion" class="magical-companion-img"> <div class="companion-speech-bubble" id="companionSpeechBubble"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="postQuizLockScreen" class="app-stage">
+            <div class="guardian-heart-display">
+                <p class="guardian-intro-text">Você superou os desafios! Agora, encontre a chave e abra o segredo do nosso Coração Guardião.</p>
+                <div class="guardian-heart-lock draggable-target" id="guardianHeartLockPostQuiz">
+                    <div class="lock-shine"></div>
+                    <div class="lock-body-shape"></div>
+                    <div class="lock-shackle-shape"></div>
+                    <div class="lock-keyhole-shape"></div>
+                    <div class="lock-sparkles">
+                        <span style="--i:1;"></span><span style="--i:2;"></span><span style="--i:3;"></span><span style="--i:4;"></span>
+                        <span style="--i:5;"></span><span style="--i:6;"></span><span style="--i:7;"></span><span style="--i:8;"></span>
+                        <span style="--i:9;"></span><span style="--i:10;"></span><span style="--i:11;"></span><span style="--i:12;"></span>
+                        <span style="--i:13;"></span><span style="--i:14;"></span><span style="--i:15;"></span><span style="--i:16;"></span>
+                        <span style="--i:17;"></span><span style="--i:18;"></span><span style="--i:19;"></span><span style="--i:20;"></span>
+                    </div>
+                </div>
+                <div class="magic-key-charm-container" id="magicKeyCharmContainer">
+                    <div class="magic-key-charm draggable" id="magicKeyCharm">
+                        <div class="key-top-shape"></div>
+                        <div class="key-body-shape"></div>
+                        <div class="key-teeth-shape"></div>
+                    </div>
+                    <p class="key-instruction-hint">Arraste a Chave do Destino até o Coração!</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="photoRevealScreen" class="app-stage">
+            <div class="photo-reveal-area">
+                <div class="secret-message-paper hidden" id="secretMessagePaper">
+                    <div class="paper-content" id="paperContent">
+                        <button class="action-button close-paper-button" id="closePaperButton">Obrigado, meu amor!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="sanctuaryScreen" class="app-stage">
+            <h1 class="sanctuary-title" id="sanctuaryTitle">Nosso Santuário Secreto ❤️</h1>
+            <div class="sanctuary-content">
+                <p id="sanctuaryText"></p>
+                <div class="sanctuary-gallery" id="sanctuaryGallery">
+                    </div>
+            </div>
+            <p class="sanctuary-footer-message">Com todo o meu amor, [Fernando Teixeira]</p>
+        </div>
+
+        <div id="heartShatterOverlay" class="heart-shatter-overlay">
+            <img src="quebrado.png" alt="Coração Partindo" class="heart-shatter-gif"> 
+        </div>
+    </div>
+
+    <audio id="audioBookOpen" src="book_open.mp3" preload="auto"></audio> 
+    <audio id="audioPageTurn" src="page_turn.mp3" preload="auto"></audio> 
+    <audio id="audioCorrectAnswer" src="correct_answer.mp3" preload="auto"></audio> 
+    <audio id="audioWrongAnswer" src="wrong_answer.mp3" preload="auto"></audio> 
+    <audio id="audioHeartShatter" src="heart_shatter_sound.mp3" preload="auto"></audio> 
+    <audio id="audioSuccessQuest" src="success_quest.mp3" preload="auto"></audio> 
+    <audio id="audioGameOverJingle" src="wrong_answer.mp3" preload="auto"></audio> 
+    <audio id="audioUnlockCharm" src="unlock_charm.mp3" preload="auto"></audio> 
+    <audio id="audioDiscovery" src="discovery_chime.mp3" preload="auto"></audio> 
+    <audio id="audioFinalMelody" src="final_melody.mp3" preload="auto" loop></audio> 
+    <audio id="audioPaperOpen" src="paper_open.mp3" preload="auto"></audio> 
+    <audio id="audioPaperClose" src="paper_close.mp3" preload="auto"></audio> 
+
+    <script src="script.js"></script>
+</body>
+</html>

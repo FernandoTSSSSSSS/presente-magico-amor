@@ -1,0 +1,1259 @@
+/* Importação de Fontes Mágicas */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;600;700&family=Great+Vibes&display=swap');
+
+/* Variáveis para a Paleta de Cores e Estilos */
+:root {
+    --color-primary-light: #fce4ec; /* Rosa super claro */
+    --color-primary-medium: #ffb6c1; /* Rosa claro */
+    --color-primary-dark: #e91e63; /* Rosa pink forte */
+    --color-accent-purple: #8a2be2; /* Azul violeta */
+    --color-accent-gold: #ffd700; /* Dourado */
+    --color-text-dark: #4a004a; /* Roxo escuro para texto principal */
+    --color-text-light: #ffffff; /* Branco */
+    --color-progress-correct: #4CAF50; /* Verde para acerto */
+    --color-progress-wrong: #F44336; /* Vermelho para erro */
+    --color-shadow-light: rgba(255, 105, 180, 0.4);
+    --color-shadow-dark: rgba(0, 0, 0, 0.6);
+    --border-color: rgba(0, 0, 0, 0.1);
+
+    --font-fancy: 'Dancing Script', cursive; /* Para títulos e elementos especiais */
+    --font-elegant: 'Great Vibes', cursive; /* Para subtítulos ou frases impactantes */
+    --font-body: 'Montserrat', sans-serif; /* Para o corpo do texto e botões */
+}
+
+/* --- Base Geral --- */
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    background: linear-gradient(135deg, #f7d9e8, #d8b4e2, #b4e0e2); /* Gradiente de sonho */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    color: var(--color-text-dark);
+}
+
+.app-container {
+    position: relative;
+    width: 95vw;
+    max-width: 1000px;
+    height: 95vh;
+    max-height: 750px;
+    background-color: var(--color-primary-light);
+    border-radius: 30px;
+    box-shadow: 0 25px 50px var(--color-shadow-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Partículas de fundo (efeito sutil de brilho/magia) */
+.background-particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 70% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 30% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 40%);
+    animation: backgroundMove 30s linear infinite;
+    z-index: 0; /* Fica no fundo */
+}
+
+@keyframes backgroundMove {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}
+
+.app-stage {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+    padding: 40px;
+    box-sizing: border-box;
+    background-color: var(--color-primary-light);
+    border-radius: 30px; /* Garante que a stage tenha a borda arredondada */
+    z-index: 1; /* Fica acima das partículas */
+}
+
+.app-stage.active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10; /* Stage ativa fica na frente */
+}
+
+/* --- Componentes Reutilizáveis --- */
+.action-button {
+    background: linear-gradient(45deg, var(--color-primary-dark), var(--color-accent-purple));
+    color: var(--color-text-light);
+    border: none;
+    padding: 18px 45px;
+    border-radius: 35px;
+    font-family: var(--font-body);
+    font-size: 1.4em;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 25px var(--color-shadow-light);
+    transition: all 0.3s ease-in-out;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.action-button::before { /* Efeito de brilho ao passar o mouse */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: skewX(-20deg);
+    transition: left 0.5s ease;
+}
+
+.action-button:hover::before {
+    left: 100%;
+}
+
+.action-button:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 15px 35px rgba(255, 105, 180, 0.8);
+    background: linear-gradient(45deg, #ff4081, #7a1ee0);
+}
+
+.action-button:active {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--color-shadow-light);
+}
+
+
+/* --- Tela Inicial: Capa do Livro dos Sonhos --- */
+#introScreen {
+    text-align: center;
+}
+
+.dream-book-cover {
+    width: 320px;
+    height: 450px;
+    background: linear-gradient(135deg, var(--color-accent-purple), #6a0dad); /* Capa com gradiente roxo */
+    border-radius: 20px;
+    box-shadow: 0 12px 35px var(--color-shadow-dark);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55), box-shadow 0.4s ease, opacity 0.5s ease; /* Adicionado opacity */
+    animation: floatingBook 4s infinite alternate ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid var(--color-accent-gold); /* Borda dourada */
+}
+
+.dream-book-cover:hover {
+    transform: scale(1.05) translateY(-10px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+}
+
+.cover-front-design {
+    position: relative;
+    z-index: 1;
+    color: var(--color-text-light);
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.book-title {
+    font-family: var(--font-fancy);
+    font-size: 4.5em;
+    margin: 0;
+    line-height: 1.1;
+    color: var(--color-accent-gold); /* Título dourado */
+    animation: fadeInScale 1.2s ease-out;
+}
+
+.book-subtitle {
+    font-family: var(--font-elegant);
+    font-size: 1.8em;
+    font-weight: 400;
+    margin-top: 15px;
+    display: block;
+    color: var(--color-primary-medium);
+    animation: fadeInScale 1.2s ease-out 0.3s forwards;
+    opacity: 0;
+}
+
+.start-journey-button {
+    margin-top: 70px;
+    animation: pulseButton 2s infinite ease-in-out;
+}
+
+/* --- Nova Tela Inicial do Cadeado (Pre-Quiz) --- */
+#preQuizLockScreen {
+    text-align: center;
+    background: linear-gradient(135deg, #e0c8f0, #c8e0f0); /* Fundo lilás/azul suave */
+}
+
+#preQuizLockScreen .guardian-intro-text {
+    font-family: var(--font-body);
+    font-size: 1.3em;
+    color: var(--color-text-dark);
+    margin-bottom: 50px;
+    line-height: 1.7;
+}
+
+#preQuizLockScreen .guardian-heart-lock {
+    width: 150px;
+    height: 130px;
+    cursor: default; /* Não é clicável ainda */
+    animation: floatingLock 3s infinite alternate ease-in-out;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+    margin-bottom: 50px; /* Espaçamento antes do botão */
+}
+/* Estilos para o cadeado são reutilizados do .guardian-heart-lock principal */
+
+
+/* --- Tela do Livro Mágico / Quiz --- */
+#gameScreen {
+    background: linear-gradient(135deg, #f0e6ff, #ffe6f2); /* Fundo suave para o jogo */
+    flex-direction: column;
+    justify-content: flex-start; /* Alinha o header no topo */
+    padding-top: 40px;
+}
+
+.game-display-area {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.game-header-ui {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 25px;
+    padding: 15px 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border: 2px solid var(--border-color);
+}
+
+.progress-meter-container {
+    width: 65%;
+    height: 28px;
+    background-color: #e0f0ff;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.progress-meter-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #ffaad5, var(--color-primary-dark)); /* Ajustado para mais suavidade */
+    border-radius: 18px;
+    transition: width 0.7s ease-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-text-light);
+    font-weight: 700;
+    font-size: 1em;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.progress-meter-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 28px;
+    color: var(--color-text-dark);
+    font-weight: 600;
+}
+
+.key-icon-display {
+    width: 30px;
+    height: auto;
+    margin-left: 15px;
+    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.life-crystals-container {
+    display: flex;
+    gap: 10px;
+}
+
+.life-crystal {
+    width: 35px;
+    height: 35px;
+    filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.3));
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+.life-crystal.lost {
+    opacity: 0.2;
+    transform: scale(0.7);
+    filter: grayscale(100%);
+}
+
+.magical-pages-wrapper {
+    position: relative;
+    width: 90%;
+    max-width: 850px;
+    height: 70%;
+    background-color: var(--secondary-bg);
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    display: flex;
+    border: 2px solid var(--border-color);
+    margin: 0 auto;
+    overflow: hidden;
+    /* Imagem de fundo da pergunta será definida aqui via JS */
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.7s ease-in-out;
+}
+
+.falling-animation-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none; /* Permite cliques através dele */
+    z-index: 0; /* Fica por trás do conteúdo da página */
+}
+
+.falling-heart, .falling-sparkle {
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0;
+    animation: falling 5s linear infinite;
+}
+
+.falling-heart {
+    background-image: url('falling_heart.png'); 
+    width: 20px;
+    height: 20px;
+    animation-delay: calc(0.5s * var(--i));
+    left: calc(10% + 80% * var(--random));
+}
+
+.falling-sparkle {
+    background-image: url('falling_sparkle.png'); 
+    width: 15px;
+    height: 15px;
+    animation-delay: calc(0.7s * var(--i));
+    left: calc(5% + 90% * var(--random));
+}
+
+@keyframes falling {
+    0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+
+.magical-page {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.9); /* Fundo branco semitransparente para a página */
+    border-radius: 20px;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.08);
+    padding: 35px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.7s ease-in-out, opacity 0.7s ease-in-out;
+    position: relative; /* Para o container da animação ficar sobre a imagem de fundo */
+    z-index: 1; /* Acima da animação caindo */
+}
+
+.magical-page.left-page {
+    flex: 0 0 45%; /* Define uma largura fixa para a página esquerda (onde a imagem pode ir) */
+    padding-right: 15px; /* Espaçamento entre as páginas */
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    align-items: flex-start; /* Alinha o conteúdo da página esquerda (pode ser a imagem) */
+    position: relative; /* Para o container da animação ficar sobre a imagem de fundo */
+    z-index: 1; /* Acima da animação caindo */
+}
+.magical-page.right-page {
+    flex: 1; /* Ocupa o restante do espaço */
+    padding-left: 15px; /* Espaçamento entre as páginas */
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Para o container da animação ficar sobre a imagem de fundo */
+    z-index: 1; /* Acima da animação caindo */
+}
+
+/* Animação de virar página */
+#gameScreen.page-turning .magical-page {
+    transform: translateX(-100%); /* Move as páginas para fora */
+    opacity: 0;
+}
+#gameScreen.page-turn-in .magical-page {
+    transform: translateX(0%); /* Traz as páginas de volta */
+    opacity: 1;
+}
+
+.page-inner-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.page-inner-content.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.page-content-wrapper { /* Novo wrapper para o conteúdo da página direita */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.page-content-wrapper .question-image { /* Estilo para a imagem dentro da pergunta */
+    max-width: 90%;
+    max-height: 200px; /* Ajuste a altura máxima conforme necessário */
+    object-fit: contain;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+
+.page-inner-content h2 {
+    font-family: var(--font-fancy);
+    font-size: 3em;
+    color: var(--color-accent-purple);
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.page-inner-content p {
+    font-family: var(--font-body);
+    font-size: 1.15em;
+    line-height: 1.7;
+    margin-bottom: 35px;
+    color: var(--color-text-dark);
+}
+
+.question-text {
+    font-size: 1.4em;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin-bottom: 20px; /* Reduzido para dar espaço à imagem */
+    line-height: 1.6;
+    text-align: center;
+}
+
+.answer-options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 90%;
+    max-width: 450px;
+}
+
+.answer-button {
+    background-color: var(--color-primary-medium);
+    color: var(--color-text-dark);
+    border: 2px solid var(--color-primary-dark);
+    padding: 14px 30px;
+    border-radius: 30px;
+    font-family: var(--font-body);
+    font-size: 1.15em;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+.answer-button:hover {
+    background-color: var(--color-primary-dark);
+    color: var(--color-text-light);
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.answer-button:active {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.feedback-message {
+    font-family: var(--font-body);
+    font-size: 1.3em;
+    font-weight: 700;
+    margin-top: 30px;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.feedback-message.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+.feedback-correct { color: var(--color-progress-correct); text-shadow: 1px 1px 3px rgba(40, 167, 69, 0.5); }
+.feedback-wrong { color: var(--color-progress-wrong); text-shadow: 1px 1px 3px rgba(220, 53, 69, 0.5); }
+
+/* Botão de Próximo para quiz/intro */
+.next-action-button {
+    background: linear-gradient(45deg, var(--color-primary-dark), var(--color-accent-purple));
+    color: var(--color-text-light);
+    border: none;
+    padding: 16px 40px;
+    border-radius: 30px;
+    font-family: var(--font-body);
+    font-size: 1.25em;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 50px;
+    box-shadow: 0 8px 20px var(--color-shadow-light);
+    transition: all 0.3s ease-in-out;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+.next-action-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(255, 105, 180, 0.6);
+}
+
+.magical-companion-area {
+    position: absolute;
+    bottom: 30px;
+    left: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 5;
+}
+
+.magical-companion-img {
+    width: 100px;
+    height: auto;
+    filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.4));
+}
+
+.companion-speech-bubble {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--color-text-dark);
+    border-radius: 20px;
+    padding: 12px 20px;
+    font-size: 1em;
+    font-family: var(--font-body);
+    text-align: center;
+    position: relative;
+    margin-top: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+.companion-speech-bubble.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+.companion-speech-bubble::after { /* Ponta do balão de fala */
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 25px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 12px solid rgba(255, 255, 255, 0.9);
+}
+
+/* --- Cadeados Reutilizáveis (Para Pre e Post Quiz) --- */
+.guardian-heart-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--secondary-bg);
+    border-radius: 25px;
+    padding: 50px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    border: 2px solid var(--border-color);
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.guardian-intro-text {
+    font-family: var(--font-body);
+    font-size: 1.3em;
+    color: var(--color-text-dark);
+    margin-bottom: 50px;
+    line-height: 1.7;
+}
+
+/* Base do Cadeado - Coração Poligonal */
+.guardian-heart-lock {
+    position: relative;
+    width: 180px;
+    height: 160px;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+    animation: floatingLock 3s infinite alternate ease-in-out;
+    margin-bottom: 50px; /* Para o botão "Iniciar Quiz" */
+    /* Centralização usando absolute e transform - aplicado apenas para o postQuizLockScreen */
+    /* Para a tela pre-quiz, o flexbox do pai já centraliza */
+}
+
+/* Corpo do Cadeado (Diamante Rosa) */
+.lock-body-shape {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #FF69B4, #E91E63); /* Tom de rosa */
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* Diamante */
+    top: 0;
+    left: 0;
+    z-index: 1;
+    transition: background 0.5s ease-in-out, transform 0.5s ease-in-out;
+    transform-origin: center;
+}
+
+/* Alça do Cadeado */
+.lock-shackle-shape {
+    position: absolute;
+    width: 80px;
+    height: 80px; /* Tamanho da "alça" */
+    background-color: #C0C0C0; /* Metal claro */
+    border-radius: 50%; /* Para formar a curva */
+    top: -40px; /* Levanta um pouco acima do corpo */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+    transition: top 0.6s ease-out, opacity 0.6s ease-out; /* Para animação de abertura */
+    border: 5px solid #808080; /* Borda mais escura para profundidade */
+}
+/* Detalhe interno da alça */
+.lock-shackle-shape::before {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-color: #E0E0E0; /* Metal mais claro */
+    border-radius: 50%;
+    top: 5px;
+    left: 5px;
+}
+
+/* Buraco da Chave (Triângulo na base do cadeado) */
+.lock-keyhole-shape {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #333; /* Fundo do buraco */
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* Triângulo */
+    top: 65%; /* Posição no corpo do cadeado */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.5);
+    transition: background-color 0.3s ease;
+}
+
+/* Efeito de Brilho no Coração */
+.lock-shine {
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    width: 70%;
+    height: 70%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4), transparent 70%);
+    border-radius: 50%;
+    opacity: 0.7;
+    z-index: 4;
+    pointer-events: none;
+}
+
+/* Animação de Destrancar o Cadeado */
+.guardian-heart-lock.unlocked .lock-shackle-shape {
+    top: -100px; /* Sobe bem alto */
+    opacity: 0; /* Desaparece */
+}
+.guardian-heart-lock.unlocked .lock-body-shape {
+    background: linear-gradient(135deg, var(--color-accent-gold), #FFD952); /* Muda para dourado */
+    animation: pulseGold 0.8s forwards; /* Pulsa ao destrancar */
+}
+
+/* Animação de Partículas ao Destrancar */
+.lock-sparkles {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0; /* Inicia invisível */
+}
+.guardian-heart-lock.unlocked .lock-sparkles {
+    opacity: 1;
+    animation: explodeSparkles 1s forwards;
+}
+.lock-sparkles span {
+    position: absolute;
+    background: var(--color-accent-gold);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    opacity: 0;
+    animation: sparkleSpread 1s ease-out forwards;
+    animation-delay: calc(var(--i) * 0.03s);
+}
+
+@keyframes explodeSparkles {
+    from { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+    to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+@keyframes sparkleSpread {
+    0% { transform: scale(0); opacity: 0; }
+    20% { opacity: 1; }
+    100% {
+        transform: translate(
+            calc((var(--i) - 10) * 15px), /* Horizontal spread */
+            calc(var(--i) * -10px + 100px) /* Vertical spread with some rise */
+        ) scale(0.5);
+        opacity: 0;
+    }
+}
+
+
+/* Arrastar e Soltar Chave */
+/* magic-key-charm-container não precisa de margin-top, pois o pai (guardian-heart-display) já o centraliza no fim */
+.magic-key-charm-container {
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    animation: fadeInSlideUp 0.8s ease-out 0.5s forwards; /* Entra em cena */
+}
+.magic-key-charm-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.magic-key-charm {
+    width: 80px; /* Tamanho da chave */
+    height: 120px;
+    position: relative; /* Padrão, muda para fixed ao arrastar */
+    animation: floatingKeyCharm 2.5s infinite alternate ease-in-out;
+    filter: drop-shadow(3px 3px 8px rgba(0, 0, 0, 0.3));
+    transition: transform 0.2s ease;
+    touch-action: none; /* Impede o scroll em mobile ao arrastar */
+}
+.magic-key-charm.draggable {
+    cursor: grab;
+}
+.magic-key-charm.dragging {
+    cursor: grabbing;
+    opacity: 0.8;
+    /* Quando arrastando, a chave fica em fixed para sobrepor tudo */
+    position: fixed !important;
+}
+
+/* O alvo do drop (o cadeado) */
+.draggable-target {
+    /* Define uma área para que a chave possa ser solta */
+    width: 200px; /* Área um pouco maior que o cadeado visualmente */
+    height: 180px;
+    position: relative; /* Mantém no fluxo, mas permite controle via JS */
+    /* Removido top/left/transform aqui, o elemento .guardian-heart-lock já é o alvo visual e está centralizado pelo pai */
+    z-index: 10; /* Acima de outros elementos, mas abaixo da chave arrastada */
+    pointer-events: all; /* Garante que eventos de drop sejam capturados */
+}
+
+/* Isso garante que o cadeado visualmente está dentro do alvo */
+/* Removido position:absolute e transform aqui de guardian-heart-lock para que ele seja tratado como um filho normal dentro de guardian-heart-display */
+/* O guardian-heart-display (pai) já o centraliza via flexbox. */
+
+
+/* Formas da chave */
+.key-top-shape { /* Círculo do topo */
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-accent-gold);
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+}
+.key-body-shape { /* Corpo da chave (retângulo) */
+    width: 20px;
+    height: 80px;
+    background-color: var(--color-accent-gold);
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5px;
+}
+.key-teeth-shape { /* Dentes da chave (polígonos) */
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: var(--color-accent-gold);
+    clip-path: polygon(0% 50%, 50% 0%, 100% 50%, 50% 100%); /* Diamante para os dentes */
+    bottom: 0;
+    left: calc(50% + 15px); /* Desloca para a direita */
+    transform: translateX(-50%) rotate(45deg);
+}
+
+.key-instruction-hint {
+    font-family: var(--font-body);
+    font-size: 1.1em;
+    color: var(--color-text-dark);
+    margin-top: 20px;
+    animation: pulseText 1.5s infinite alternate;
+}
+
+/* --- Nova Tela de Fotos e Mensagem Secreta --- */
+#photoRevealScreen {
+    background: linear-gradient(135deg, #e0f0ff, #f0e6ff); /* Fundo suave de céu */
+    position: relative;
+    overflow: hidden;
+}
+
+.photo-reveal-area {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.floating-photo {
+    position: absolute;
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: floatAndRotate 15s infinite ease-in-out;
+    opacity: 0; /* Começa invisível */
+    transition: opacity 1s ease-in-out;
+    z-index: 2; /* Fica atrás do papel */
+}
+
+/* Animações de fotos */
+@keyframes floatAndRotate {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.8;}
+    25% { transform: translate(var(--dx1), var(--dy1)) rotate(var(--r1)) scale(var(--s1)); }
+    50% { transform: translate(var(--dx2), var(--dy2)) rotate(var(--r2)) scale(var(--s2)); }
+    75% { transform: translate(var(--dx3), var(--dy3)) rotate(var(--r3)) scale(var(--s3)); }
+    100% { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 0.8;}
+}
+
+.secret-message-paper {
+    position: relative;
+    width: 400px;
+    max-width: 90%; /* Limita largura em telas menores */
+    height: 300px;
+    max-height: 80%; /* Limita altura em telas menores */
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    transform-origin: top center; /* Ponto de origem para a dobra */
+    transform: rotateX(90deg) scale(0.5); /* Começa dobrado e pequeno */
+    opacity: 0;
+    transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.8s ease; /* Animação de abertura */
+    z-index: 5; /* Fica na frente das fotos */
+    overflow-y: auto; /* Adiciona scroll se o conteúdo for grande */
+}
+
+.secret-message-paper.active {
+    transform: rotateX(0deg) scale(1);
+    opacity: 1;
+}
+
+.paper-content {
+    padding: 30px;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 1.1em;
+    color: var(--color-text-dark);
+    line-height: 1.7;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Botão no final */
+}
+
+.close-paper-button {
+    margin-top: 20px;
+    padding: 12px 30px;
+    font-size: 1.1em;
+}
+
+/* --- Tela Final: Nosso Santuário Secreto --- */
+#sanctuaryScreen {
+    background: linear-gradient(135deg, #d4eaf7, #e0ffe6); /* Céu azul e verde claro */
+}
+
+.sanctuary-title {
+    font-family: var(--font-fancy);
+    font-size: 4.5em;
+    color: var(--color-accent-purple);
+    margin-bottom: 50px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+    animation: fadeInScale 1s ease-out;
+}
+
+.sanctuary-content {
+    background-color: var(--secondary-bg);
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    margin-bottom: 50px;
+    max-height: 60%;
+    overflow-y: auto;
+    border: 2px solid var(--border-color);
+    animation: fadeIn 1.2s ease-out 0.2s forwards;
+    opacity: 0;
+}
+
+.sanctuary-content p {
+    font-family: var(--font-body);
+    font-size: 1.15em;
+    line-height: 1.8;
+    color: var(--color-text-dark);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.sanctuary-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+    padding: 10px;
+    justify-content: center;
+}
+
+.sanctuary-gallery img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sanctuary-gallery img:hover {
+    transform: scale(1.08) rotate(2deg);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+}
+
+.sanctuary-footer-message {
+    font-family: var(--font-fancy);
+    font-size: 2.5em;
+    color: var(--color-primary-dark);
+    margin-top: 50px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Overlay de Coração Partindo --- */
+.heart-shatter-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000; /* Acima de tudo */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.heart-shatter-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.heart-shatter-gif {
+    width: 300px;
+    height: auto;
+    animation: bounceIn 0.7s ease-out; /* Animação para o GIF ao aparecer */
+}
+
+/* --- Keyframe Animations --- */
+@keyframes floatingBook {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(2deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes pulseButton {
+    0% { transform: scale(1); box-shadow: 0 10px 25px var(--color-shadow-light); }
+    50% { transform: scale(1.02); box-shadow: 0 15px 35px rgba(255, 105, 180, 0.6); }
+    100% { transform: scale(1); box-shadow: 0 10px 25px var(--color-shadow-light); }
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes floatingLock {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(-3deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes pulseGold {
+    0% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.1); filter: brightness(1.3); }
+    100% { transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes floatingKeyCharm {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-7px) rotate(5deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes pulseText {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.2); opacity: 1; }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+/* --- Responsividade (Ajustes para Telas Menores) --- */
+@media (max-width: 768px) {
+    .app-container {
+        width: 98vw;
+        height: 98vh;
+        border-radius: 15px;
+        padding: 0;
+    }
+
+    .app-stage {
+        padding: 20px;
+    }
+
+    /* Intro Screen */
+    .dream-book-cover {
+        width: 250px;
+        height: 350px;
+    }
+    .book-title {
+        font-size: 3.5em;
+    }
+    .book-subtitle {
+        font-size: 1.4em;
+    }
+    .start-journey-button {
+        padding: 15px 30px;
+        font-size: 1.2em;
+        margin-top: 50px;
+    }
+
+    /* Pre-Quiz Lock Screen */
+    #preQuizLockScreen .guardian-heart-lock {
+        width: 150px;
+        height: 130px;
+        margin-bottom: 30px;
+    }
+    #preQuizLockScreen .guardian-intro-text {
+        font-size: 1.1em;
+        margin-bottom: 30px;
+    }
+
+    /* Game Screen */
+    .game-display-area {
+        padding: 10px;
+    }
+    .game-header-ui {
+        flex-direction: column;
+        gap: 15px;
+        padding: 10px 15px;
+        margin-bottom: 25px;
+    }
+    .progress-meter-container {
+        width: 95%;
+    }
+    .life-crystal {
+        width: 28px;
+        height: 28px;
+    }
+    .magical-pages-wrapper {
+        width: 95%;
+        height: auto;
+        min-height: 450px; /* Garante altura mínima para conteúdo */
+        flex-direction: column; /* Em mobile, as páginas do livro empilham */
+    }
+    .magical-page {
+        padding: 25px;
+        width: 100% !important; /* Força largura total em mobile */
+        border-radius: 15px !important; /* Volta a ter bordas arredondadas */
+    }
+    .magical-page.left-page {
+        padding-right: 25px; /* Ajusta padding */
+        align-items: center; /* Centraliza a imagem da pergunta */
+    }
+    .magical-page.right-page {
+        padding-left: 25px; /* Ajusta padding */
+    }
+
+    /* Desabilita animação de slide em mobile para evitar bugs */
+    #gameScreen.page-turning .magical-page,
+    #gameScreen.page-turn-in .magical-page {
+        transform: translateX(0%) !important;
+        opacity: 1 !important;
+    }
+
+    .page-inner-content h2 {
+        font-size: 2.2em;
+        margin-bottom: 20px;
+    }
+    .page-inner-content p, .question-text {
+        font-size: 1em;
+        margin-bottom: 25px;
+    }
+    .question-image-container { /* Imagem da pergunta em mobile */
+        max-width: 80%;
+        margin-bottom: 15px;
+    }
+    .answer-options-grid {
+        width: 100%;
+    }
+    .answer-button {
+        padding: 12px 20px;
+        font-size: 1em;
+    }
+    .next-action-button {
+        padding: 14px 30px;
+        font-size: 1.1em;
+        margin-top: 40px;
+    }
+    .magical-companion-area {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        margin-top: 30px;
+    }
+    .magical-companion-img {
+        width: 80px;
+    }
+    .companion-speech-bubble {
+        font-size: 0.85em;
+        padding: 10px 15px;
+    }
+    .companion-speech-bubble::after {
+        left: 50%;
+        transform: translateX(-50%) rotate(0deg);
+        border-top: 10px solid rgba(255, 255, 255, 0.9);
+        border-bottom: none;
+    }
+
+    /* Post-Quiz Lock Screen (reutiliza estilos) */
+    #postQuizLockScreen .guardian-heart-lock {
+        width: 150px;
+        height: 130px;
+    }
+
+
+    /* Photo Reveal Screen */
+    .secret-message-paper {
+        width: 90%;
+        height: auto;
+        padding: 20px;
+    }
+    .paper-content {
+        font-size: 1em;
+    }
+    .close-paper-button {
+        padding: 10px 25px;
+        font-size: 1em;
+    }
+
+    /* Sanctuary Screen */
+    .sanctuary-title {
+        font-size: 3.5em;
+        margin-bottom: 30px;
+    }
+    .sanctuary-content {
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+    .sanctuary-content p {
+        font-size: 1em;
+        margin-bottom: 20px;
+    }
+    .sanctuary-gallery {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 15px;
+    }
+    .sanctuary-gallery img {
+        height: 100px;
+    }
+    .sanctuary-footer-message {
+        font-size: 2em;
+        margin-top: 40px;
+    }
+}

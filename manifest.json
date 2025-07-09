@@ -1,0 +1,21 @@
+{
+  "name": "Nosso Presente Mágico ❤️",
+  "short_name": "Amor Mágico",
+  "description": "Uma jornada interativa sobre nossa história de amor!",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#fce4ec",
+  "theme_color": "#e91e63",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
