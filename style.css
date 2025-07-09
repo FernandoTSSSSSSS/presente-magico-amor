@@ -20,7 +20,7 @@
     --font-elegant: 'Great Vibes', cursive; /* Para subtítulos ou frases impactantes */
     --font-body: 'Montserrat', sans-serif; /* Para o corpo do texto e botões */
 
-    /* Variável para a cor de fundo secundária, adicionei pois estava faltando */
+    /* Variável para a cor de fundo secundária */
     --secondary-bg: rgba(255, 255, 255, 0.9);
 }
 
@@ -634,8 +634,6 @@ body {
     filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
     animation: floatingLock 3s infinite alternate ease-in-out;
     margin-bottom: 50px; /* Para o botão "Iniciar Quiz" */
-    /* Centralização usando absolute e transform - aplicado apenas para o postQuizLockScreen */
-    /* Para a tela pre-quiz, o flexbox do pai já centraliza */
 }
 
 /* Corpo do Cadeado (Diamante Rosa) */
@@ -764,7 +762,6 @@ body {
 
 
 /* Arrastar e Soltar Chave */
-/* magic-key-charm-container não precisa de margin-top, pois o pai (guardian-heart-display) já o centraliza no fim */
 .magic-key-charm-container {
     text-align: center;
     opacity: 0;
@@ -792,25 +789,17 @@ body {
 .magic-key-charm.dragging {
     cursor: grabbing;
     opacity: 0.8;
-    /* Quando arrastando, a chave fica em fixed para sobrepor tudo */
     position: fixed !important;
 }
 
 /* O alvo do drop (o cadeado) */
 .draggable-target {
-    /* Define uma área para que a chave possa ser solta */
-    width: 200px; /* Área um pouco maior que o cadeado visualmente */
+    width: 200px;
     height: 180px;
-    position: relative; /* Mantém no fluxo, mas permite controle via JS */
-    /* Removido top/left/transform aqui, o elemento .guardian-heart-lock já é o alvo visual e está centralizado pelo pai */
-    z-index: 10; /* Acima de outros elementos, mas abaixo da chave arrastada */
-    pointer-events: all; /* Garante que eventos de drop sejam capturados */
+    position: relative;
+    z-index: 10;
+    pointer-events: all;
 }
-
-/* Isso garante que o cadeado visualmente está dentro do alvo */
-/* Removido position:absolute e transform aqui de guardian-heart-lock para que ele seja tratado como um filho normal dentro de guardian-heart-display */
-/* O guardian-heart-display (pai) já o centraliza via flexbox. */
-
 
 /* Formas da chave */
 .key-top-shape { /* Círculo do topo */
@@ -1094,148 +1083,161 @@ body {
 /* --- Responsividade (Ajustes para Telas Menores) --- */
 @media (max-width: 768px) {
     .app-container {
-        width: 100vw; /* Ocupa a largura total */
-        height: 100vh; /* Ocupa a altura total */
-        border-radius: 0; /* Remove as bordas arredondadas para ocupar a tela inteira */
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
         padding: 0;
     }
 
     .app-stage {
-        padding: 20px;
+        padding: 15px; /* Reduz um pouco o padding geral das stages */
         border-radius: 0;
-        /* Remover a opacidade e transformação de 0.9 para 1 para garantir que não haja atrasos visuais */
         opacity: 1;
         transform: scale(1);
-        transition: none; /* Desabilita transição de estágio para maior fluidez em mobile */
+        transition: none;
+        box-sizing: border-box; /* Adicionado para garantir o box model */
     }
-    
+
     /* Intro Screen */
     #introScreen {
-        justify-content: space-around; /* Distribui o livro e o botão */
-        padding: 40px 20px; /* Adiciona padding vertical */
+        justify-content: space-evenly; /* Distribui melhor o livro e o botão */
+        padding: 30px 15px; /* Ajusta padding */
     }
     .dream-book-cover {
-        width: 250px;
-        height: 350px;
-        margin-bottom: 30px; /* Espaço entre o livro e o botão */
+        width: 220px; /* Um pouco menor para caber melhor */
+        height: 300px;
+        margin-bottom: 25px;
     }
     .book-title {
-        font-size: 3.5em;
+        font-size: 3em; /* Fonte menor */
     }
     .book-subtitle {
-        font-size: 1.4em;
+        font-size: 1.2em; /* Fonte menor */
     }
     .start-journey-button {
-        padding: 15px 30px;
-        font-size: 1.2em;
-        margin-top: 0; /* Ajustado para o space-around */
+        padding: 14px 28px;
+        font-size: 1.1em;
+        margin-top: 0;
     }
 
     /* Pre-Quiz Lock Screen */
     #preQuizLockScreen {
-        padding: 40px 20px; /* Padding para a tela */
-        justify-content: space-around; /* Distribui os elementos */
+        justify-content: space-evenly;
+        padding: 30px 15px;
     }
     #preQuizLockScreen .guardian-heart-display {
-        padding: 30px 20px;
-        width: 95%; /* Ocupa mais largura */
+        padding: 25px 15px;
+        width: 95%;
     }
     #preQuizLockScreen .guardian-intro-text {
-        font-size: 1.1em;
-        margin-bottom: 30px;
+        font-size: 1em; /* Reduz fonte */
+        margin-bottom: 25px;
     }
     #preQuizLockScreen .guardian-heart-lock {
-        width: 150px;
-        height: 130px;
-        margin-bottom: 30px;
+        width: 120px; /* Cadeado um pouco menor */
+        height: 100px;
+        margin-bottom: 25px;
     }
 
     /* Game Screen */
     #gameScreen {
-        padding-top: 20px;
+        padding-top: 15px; /* Reduz o padding superior */
         justify-content: flex-start;
-        height: 100vh; /* Garante que a tela do jogo ocupe a altura total */
+        height: 100vh;
+        display: flex; /* Garante que é um flex container */
+        flex-direction: column; /* Organiza os filhos em coluna */
     }
 
     .game-display-area {
-        display: flex; /* Garante flexbox */
-        flex-direction: column; /* Conteúdo em coluna */
+        display: flex;
+        flex-direction: column;
         width: 100%;
         height: 100%; /* Ocupa a altura total do #gameScreen */
-        padding: 0 10px; /* Ajusta o padding horizontal */
-        box-sizing: border-box; /* Garante que o padding não aumente a largura */
+        padding: 0 10px;
+        box-sizing: border-box;
+        /* Adicionado para permitir que a área de jogo principal se estenda */
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: auto;
     }
 
     .game-header-ui {
         flex-direction: column;
-        gap: 15px;
-        padding: 10px 15px;
-        margin: 0 auto 20px auto; /* Espaço menor abaixo do header */
-        width: 95%;
+        gap: 12px; /* Reduz gap */
+        padding: 8px 12px; /* Reduz padding */
+        margin: 0 auto 15px auto; /* Reduz margin-bottom */
+        width: 98%; /* Ocupa mais largura */
         max-width: none; /* Remove max-width para flexibilidade total */
     }
     .progress-meter-container {
-        width: 100%; /* Ocupa a largura total no header */
+        width: 100%;
+        height: 25px; /* Altura do medidor menor */
+    }
+    .progress-meter-text {
+        line-height: 25px; /* Ajusta line-height para a nova altura */
+        font-size: 0.9em; /* Fonte menor */
     }
     .life-crystals-container {
-        justify-content: center;
+        gap: 8px; /* Reduz gap entre corações */
     }
     .life-crystal {
-        width: 25px;
-        height: 25px;
+        width: 22px; /* Corações menores */
+        height: 22px;
     }
 
     /* --- Otimização do Wrapper das Páginas Mágicas (o "livro") --- */
     .magical-pages-wrapper {
-        width: 95%; /* Ocupa a maior parte da largura */
+        width: 98%; /* Ocupa mais largura da tela */
         height: auto; /* Altura flexível */
         flex-grow: 1; /* Permite que o wrapper cresça para ocupar espaço disponível */
         flex-shrink: 1; /* Permite que o wrapper encolha */
         flex-basis: auto; /* Base flexível */
-        min-height: 40vh; /* Altura mínima para não ficar invisível */
-        max-height: calc(100% - 150px); /* Tenta limitar a altura para deixar espaço para o companheiro */
-        flex-direction: column; /* Empilha as "páginas" verticalmente */
+        min-height: 50vh; /* Altura mínima razoável */
+        flex-direction: column;
         margin: 0 auto;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra mais leve */
+        border-radius: 12px; /* Arredondamento menor */
         overflow-y: auto; /* Permite scroll se o conteúdo for muito grande */
-        background-position: center top; /* Ajusta o fundo para o topo central */
+        background-position: center top;
     }
 
     /* --- Otimização das Páginas Individuais (Esquerda e Direita) --- */
     .magical-page {
-        flex: 1 1 auto; /* Permite que cada página cresça e encolha */
-        width: 100% !important; /* Ocupa a largura total do wrapper */
-        padding: 20px; /* Padding interno da página */
-        border-radius: 15px;
+        flex: 0 0 auto; /* Permite que cada página defina sua própria altura com base no conteúdo */
+        width: 100% !important;
+        padding: 18px; /* Padding interno da página */
+        border-radius: 12px;
         box-shadow: none;
         transition: none !important;
         opacity: 1 !important;
         transform: translateX(0%) !important;
-        text-align: center; /* Centraliza o texto dentro da página */
-        box-sizing: border-box; /* Garante que o padding não aumente a largura */
+        text-align: center;
+        box-sizing: border-box;
     }
 
     .magical-page.left-page {
-        padding-right: 20px; /* Padding consistente */
-        border-bottom-left-radius: 0; /* Remove arredondamento na base da página de cima */
-        border-bottom-right-radius: 0; /* Remove arredondamento na base da página de cima */
-        border-top-left-radius: 15px; /* Mantém bordas superiores arredondadas */
-        border-top-right-radius: 15px;
-        align-items: center; /* Centraliza a imagem/conteúdo */
-        justify-content: center; /* Centraliza verticalmente */
-        min-height: 150px; /* Altura mínima razoável para a imagem */
-        background-color: rgba(255, 255, 255, 0.95); /* Levemente mais opaco para clareza */
+        padding-right: 18px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        align-items: center;
+        justify-content: center;
+        min-height: 120px; /* Altura mínima reduzida para a imagem */
+        max-height: 25vh; /* Altura máxima para não tomar muito espaço */
+        background-color: rgba(255, 255, 255, 0.95);
+        overflow: hidden; /* Garante que nada vaze */
     }
     .magical-page.right-page {
-        padding-left: 20px; /* Padding consistente */
-        border-top-left-radius: 0; /* Remove arredondamento no topo da página de baixo */
-        border-top-right-radius: 0; /* Remove arredondamento no topo da página de baixo */
-        border-bottom-left-radius: 15px; /* Mantém bordas inferiores arredondadas */
-        border-bottom-right-radius: 15px;
-        margin-top: 10px; /* Espaço menor entre as páginas */
-        min-height: 30vh; /* Altura mínima flexível */
-        justify-content: flex-start; /* **MUDANÇA CRUCIAL: Alinha conteúdo do quiz ao topo** */
+        padding-left: 18px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+        margin-top: 8px; /* Espaço menor entre as páginas */
+        min-height: 25vh; /* Altura mínima flexível */
+        flex-grow: 1; /* Permite que a página de conteúdo cresça */
+        justify-content: flex-start; /* Alinha conteúdo do quiz ao topo */
         background-color: rgba(255, 255, 255, 0.95);
         overflow-y: auto; /* Permite scroll se as opções de resposta forem muitas */
     }
@@ -1250,46 +1252,46 @@ body {
     /* --- Conteúdo Interno da Página do Quiz --- */
     .page-inner-content {
         width: 100%;
-        height: auto; /* **MUDANÇA CRUCIAL: Altura automática** */
+        height: auto; /* Altura automática */
         display: flex;
         flex-direction: column;
-        justify-content: flex-start; /* **MUDANÇA CRUCIAL: Alinha conteúdo ao topo** */
+        justify-content: flex-start; /* Alinha conteúdo ao topo */
         align-items: center;
-        opacity: 1; /* Já deve ser visível ao entrar */
-        transform: translateY(0); /* Já deve estar na posição normal */
-        transition: none; /* Desabilita transições para fluidez */
-        gap: 15px; /* Adiciona espaçamento entre os elementos internos */
+        opacity: 1;
+        transform: translateY(0);
+        transition: none;
+        gap: 10px; /* Reduz o espaçamento entre os elementos internos */
     }
 
     .page-content-wrapper .question-image {
         max-width: 90%;
-        max-height: 150px; /* Ajuste a altura máxima para caber melhor */
-        margin-bottom: 10px; /* Espaço reduzido abaixo da imagem */
+        max-height: 120px; /* Altura máxima ainda menor para caber mais */
+        margin-bottom: 8px; /* Espaço reduzido abaixo da imagem */
     }
 
     .question-text {
-        font-size: 1.1em; /* Fonte ligeiramente menor */
-        margin-bottom: 15px; /* Espaço abaixo da pergunta */
-        line-height: 1.5;
+        font-size: 1em; /* Fonte menor para caber mais texto */
+        margin-bottom: 12px; /* Espaço reduzido abaixo da pergunta */
+        line-height: 1.4;
     }
 
     .answer-options-grid {
         width: 100%;
-        gap: 10px; /* Reduz o espaço entre os botões de resposta */
+        gap: 8px; /* Reduz o espaço entre os botões de resposta */
     }
 
     .answer-button {
-        padding: 12px 20px; /* Padding um pouco menor */
-        font-size: 0.95em; /* Fonte um pouco menor */
+        padding: 10px 15px; /* Padding menor */
+        font-size: 0.9em; /* Fonte menor */
     }
     .feedback-message {
-        font-size: 1em;
-        margin-top: 15px;
+        font-size: 0.9em;
+        margin-top: 10px;
     }
     .next-action-button {
         padding: 12px 25px;
         font-size: 1em;
-        margin-top: 30px;
+        margin-top: 25px;
     }
 
     /* --- Companheiro Mágico --- */
@@ -1297,106 +1299,111 @@ body {
         position: relative;
         bottom: auto;
         left: auto;
-        margin-top: 20px; /* Reduz o espaço para economizar altura */
-        display: flex; /* Garante flexbox */
-        flex-direction: row; /* Companheiro e balão lado a lado */
-        align-items: flex-end; /* Alinha a base do companheiro e do balão */
-        justify-content: center; /* Centraliza a área */
-        width: 100%; /* Ocupa a largura total para centralizar */
-        padding: 0 10px; /* Pequeno padding para não colar nas bordas */
+        margin-top: 15px; /* Reduz ainda mais o espaço para o companheiro */
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: center;
+        width: 100%;
+        padding: 0 8px;
         box-sizing: border-box;
     }
 
     .magical-companion-img {
-        width: 60px; /* Companheiro menor para não ser cortado */
+        width: 50px; /* Companheiro ainda menor */
         height: auto;
-        margin-right: 8px; /* Espaço entre imagem e balão */
-        flex-shrink: 0; /* Impede que a imagem encolha */
+        margin-right: 5px; /* Espaço entre imagem e balão */
+        flex-shrink: 0;
     }
 
     .companion-speech-bubble {
-        font-size: 0.75em; /* Fonte ainda menor para o balão */
-        padding: 8px 12px; /* Padding menor */
+        font-size: 0.7em; /* Fonte muito pequena para o balão */
+        padding: 6px 10px; /* Padding menor */
         margin-top: 0;
         margin-bottom: 0;
         text-align: left;
-        max-width: 65%; /* Limita a largura do balão */
-        flex-grow: 1; /* Permite que o balão cresça */
+        max-width: 70%; /* Permite que o balão seja mais largo, mas com limite */
+        flex-grow: 1;
     }
     .companion-speech-bubble::after {
-        top: 85%; /* Ajusta a ponta do balão */
-        left: 15px; /* Ajusta a posição lateral da ponta */
+        top: 85%;
+        left: 10px;
         transform: translateY(-50%) rotate(0deg);
-        border-top: 8px solid rgba(255, 255, 255, 0.9); /* Ponta menor */
-        border-left: 8px solid transparent; /* Alinha a ponta com o companheiro */
-        border-right: 8px solid transparent;
+        border-top: 6px solid rgba(255, 255, 255, 0.9);
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
         border-bottom: none;
     }
 
     /* Post-Quiz Lock Screen */
     #postQuizLockScreen .guardian-heart-display {
-        padding: 30px;
-        width: 90%;
+        padding: 25px;
+        width: 95%;
     }
     .guardian-intro-text {
-        font-size: 1.05em;
-        margin-bottom: 25px;
+        font-size: 0.95em;
+        margin-bottom: 20px;
     }
     .guardian-heart-lock {
-        margin-bottom: 25px;
+        width: 120px;
+        height: 100px;
+        margin-bottom: 20px;
     }
     .magic-key-charm-container {
-        margin-top: 20px;
+        margin-top: 15px;
     }
     .key-instruction-hint {
-        font-size: 0.9em;
+        font-size: 0.85em;
     }
 
     /* Photo Reveal Screen */
+    #photoRevealScreen {
+        padding: 15px;
+    }
     .secret-message-paper {
-        width: 95%; /* Ocupa mais largura */
-        max-height: 70vh; /* Ajusta altura máxima */
+        width: 98%; /* Ocupa mais largura */
+        max-height: 80vh; /* Aumenta um pouco a altura máxima do papel */
         padding: 15px;
     }
     .paper-content {
-        padding: 15px;
-        font-size: 0.95em;
-        line-height: 1.6;
+        padding: 10px; /* Padding interno menor */
+        font-size: 0.9em; /* Fonte menor */
+        line-height: 1.5;
     }
     .close-paper-button {
-        padding: 10px 20px;
-        font-size: 0.95em;
-        margin-top: 15px;
+        padding: 8px 18px;
+        font-size: 0.9em;
+        margin-top: 10px;
     }
 
     /* Sanctuary Screen */
     #sanctuaryScreen {
-        padding: 30px 20px; /* Adiciona padding para a tela toda */
+        padding: 25px 15px;
     }
     .sanctuary-title {
-        font-size: 3em;
-        margin-bottom: 25px;
+        font-size: 2.5em; /* Título menor */
+        margin-bottom: 20px;
     }
     .sanctuary-content {
-        padding: 20px;
-        max-height: 50vh; /* Ajusta altura máxima para que caiba mais conteúdo */
+        padding: 18px;
+        max-height: 55vh; /* Ajusta altura máxima */
         margin-bottom: 20px;
-        flex-grow: 1; /* Permite que cresça na altura */
+        flex-grow: 1;
     }
     .sanctuary-content p {
-        font-size: 0.95em;
-        margin-bottom: 15px;
+        font-size: 0.9em;
+        margin-bottom: 12px;
     }
     .sanctuary-gallery {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Fotos ainda menores para mais colunas */
-        gap: 8px;
-        padding: 5px;
+        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); /* Fotos ainda menores */
+        gap: 6px;
+        padding: 3px;
     }
     .sanctuary-gallery img {
-        height: 70px; /* Altura fixa menor */
+        height: 60px; /* Altura fixa menor */
     }
     .sanctuary-footer-message {
-        font-size: 1.8em;
-        margin-top: 25px;
+        font-size: 1.6em;
+        margin-top: 20px;
     }
 }
