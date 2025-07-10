@@ -1135,7 +1135,7 @@ body {
     }
     #preQuizLockScreen .guardian-intro-text {
         font-size: 0.95em;
-        margin-bottom: 20px;
+        margin-bottom: 20px; /* MANTÉM, mas pode precisar de mais se o problema persistir */
     }
     #preQuizLockScreen .guardian-heart-lock {
         width: 100px;
@@ -1201,11 +1201,11 @@ body {
         flex-basis: auto;
         min-height: 40vh; /* Altura mínima para não ficar invisível */
         /* ***** AJUSTE CRÍTICO AQUI ***** */
-        /* Header (com padding/margin): ~82px */
-        /* Companheiro (min-height + padding): ~70px. Sem margin-top. */
-        /* Total fixo: 82px (header) + 70px (companion) = 152px */
-        /* Reduzindo mais 16px para ter um buffer maior e subir o companheiro */
-        max-height: calc(100% - 168px); /* Aumentado o valor subtraído para puxar mais para cima */
+        /* Header: ~82px (60 min-height + 12 padding + 10 margin-bottom) */
+        /* Companheiro: ~70px (70 min-height + 0 margin-top + 10 padding) = 80px */
+        /* Total estimado fixo: 82px (header) + 80px (companion) = 162px */
+        /* Aumentando o valor subtraído para puxar o livro mais para cima, liberando espaço para o companheiro */
+        max-height: calc(100% - 180px); /* Aumentado de 168px para 180px para subir o companheiro mais */
         flex-direction: column;
         margin: 0 auto;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra mais leve */
