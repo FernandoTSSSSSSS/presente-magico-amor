@@ -1203,7 +1203,13 @@ body {
         flex-shrink: 1; /* Permite que o wrapper encolha */
         flex-basis: auto;
         min-height: 40vh; /* Altura mínima para não ficar invisível */
-        max-height: calc(100% - 140px); /* Tenta deixar espaço para o header e o companheiro. **Ajustar '140px' se o companheiro ainda for cortado ou houver muito espaço** */
+        /* ***** AJUSTE CRÍTICO AQUI ***** */
+        /* Calcula a altura restante da .game-display-area, subtraindo os elementos fixos */
+        /* (header com padding/margin + área do companheiro com min-height/margin) */
+        /* Header: 60px (min-height) + 12px (padding) + 10px (margin-bottom) = 82px */
+        /* Companheiro: 70px (min-height) + 10px (margin-top) = 80px */
+        /* Total estimado fixo: 82px + 80px = 162px. Adicionando um buffer de segurança de 10px: 172px */
+        max-height: calc(100% - 172px); /* Isso garante espaço para os outros elementos */
         flex-direction: column;
         margin: 0 auto;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra mais leve */
