@@ -85,8 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
             correctAnswer: "Minha casa",
             companionSpeechCorrect: "Isso mesmo, nosso cantinho!",
             companionSpeechWrong: "Ops! Pensa no lugar mais aconchegante...",
-            background: "quiz_bg_house.jpg",
-            questionImage: "quiz_photo_house.jpg"
+            background: "quiz_bg_house.png",
+            questionImage: "quiz_photo_house.png"
         },
         {
             question: "Quantos anos eu tenho?",
@@ -127,12 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const finalPhotos = [
-        "final_photo_1.jpg",
-        "final_photo_2.jpg",
-        "final_photo_3.jpg",
-        "final_photo_4.jpg",
-        "final_photo_5.jpg",
-        "final_photo_6.jpg"
+        "final_photo_1.png",
+        "final_photo_2.png",
+        "final_photo_3.png",
+        "final_photo_4.png",
+        "final_photo_5.png",
+        "final_photo_6.png"
     ];
 
     const secretMessageContent = `
