@@ -81,12 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             question: "Onde foi tirada essa foto?",
-            options: ["Na praia", "No parque", "Minha casa"],
+            options: ["Na sua casa", "No shopping", "Minha casa"],
             correctAnswer: "Minha casa",
             companionSpeechCorrect: "Isso mesmo, nosso cantinho!",
             companionSpeechWrong: "Ops! Pensa no lugar mais aconchegante...",
-            background: "quiz_bg_house.jpeg",
-            questionImage: "quiz_photo_house.jpeg"
+            background: "quiz_bg_house.jpg",
+            questionImage: "quiz_photo_house.jpg"
         },
         {
             question: "Quantos anos eu tenho?",
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             question: "Qual meu nome completo?",
-            options: ["Fernando Santos Costa", "Fernando Teixeira Da Silva", "Felipe Almeida Souza"],
+            options: ["Fernando Santos Costa", "Fernando Teixeira Da Silva", "Fernando Almeida Souza"],
             correctAnswer: "Fernando Teixeira Da Silva",
             companionSpeechCorrect: "Meu nome completo, você sabe tudo!",
             companionSpeechWrong: "Essa é fácil! Tenta de novo!",
