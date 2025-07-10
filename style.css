@@ -1126,21 +1126,25 @@ body {
 
     /* Pre-Quiz Lock Screen */
     #preQuizLockScreen {
-        justify-content: space-evenly;
+        justify-content: space-evenly; /* Distribui bem os elementos */
         padding: 20px 10px;
     }
     #preQuizLockScreen .guardian-heart-display {
-        padding: 20px 15px;
+        padding: 20px 15px; /* Ajuste para ter mais espaço interno */
         width: 98%;
     }
     #preQuizLockScreen .guardian-intro-text {
         font-size: 0.95em;
-        margin-bottom: 20px; /* MANTÉM, mas pode precisar de mais se o problema persistir */
+        margin-bottom: 20px; /* Pode ser ajustado se ainda houver sobreposição */
+        position: relative; /* Necessário para z-index */
+        z-index: 2; /* Coloca o texto acima do cadeado */
     }
     #preQuizLockScreen .guardian-heart-lock {
         width: 100px;
         height: 85px;
-        margin-bottom: 20px;
+        margin-bottom: 20px; /* Ajuste para ter mais espaço */
+        position: relative; /* Já tem, mas reforça para z-index */
+        z-index: 1; /* Garante que o cadeado está abaixo do texto (se o texto tiver z-index maior) */
     }
 
     /* Game Screen */
@@ -1201,11 +1205,12 @@ body {
         flex-basis: auto;
         min-height: 40vh; /* Altura mínima para não ficar invisível */
         /* ***** AJUSTE CRÍTICO AQUI ***** */
+        /* Recalculado para ser mais agressivo no espaço subtraído e subir o companheiro. */
         /* Header: ~82px (60 min-height + 12 padding + 10 margin-bottom) */
-        /* Companheiro: ~70px (70 min-height + 0 margin-top + 10 padding) = 80px */
+        /* Companheiro: ~80px (70 min-height + 10 padding) */
         /* Total estimado fixo: 82px (header) + 80px (companion) = 162px */
-        /* Aumentando o valor subtraído para puxar o livro mais para cima, liberando espaço para o companheiro */
-        max-height: calc(100% - 180px); /* Aumentado de 168px para 180px para subir o companheiro mais */
+        /* Aumentado o valor subtraído para puxar o livro mais para cima, liberando mais espaço para o companheiro */
+        max-height: calc(100% - 180px); /* Ajustado para dar mais espaço para o companheiro */
         flex-direction: column;
         margin: 0 auto;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra mais leve */
@@ -1367,14 +1372,18 @@ body {
         padding: 20px;
         width: 98%;
     }
-    .guardian-intro-text {
+    #postQuizLockScreen .guardian-intro-text {
         font-size: 0.9em;
-        margin-bottom: 15px;
+        margin-bottom: 20px; /* MANTÉM, mas pode precisar de mais se o problema persistir */
+        position: relative; /* Necessário para z-index */
+        z-index: 2; /* Coloca o texto acima do cadeado */
     }
-    .guardian-heart-lock {
+    #postQuizLockScreen .guardian-heart-lock {
         width: 100px;
         height: 85px;
-        margin-bottom: 15px;
+        margin-bottom: 20px; /* Ajuste para ter mais espaço */
+        position: relative; /* Já tem, mas reforça para z-index */
+        z-index: 1; /* Garante que o cadeado está abaixo do texto (se o texto tiver z-index maior) */
     }
     .magic-key-charm-container {
         margin-top: 10px;
