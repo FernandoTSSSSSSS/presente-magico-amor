@@ -1102,6 +1102,7 @@ body {
         transform: scale(1);
         transition: none;
         box-sizing: border-box;
+        height: 100%; /* Garante que o estágio ocupa 100% da altura do app-container */
     }
 
     /* Intro Screen */
@@ -1152,13 +1153,14 @@ body {
         height: 100%; /* Usa 100% da altura do app-container/stage */
         display: flex;
         flex-direction: column;
+        box-sizing: border-box; /* Garante que o padding-top não cause overflow */
     }
 
     .game-display-area {
         display: flex;
         flex-direction: column;
         width: 100%;
-        height: 100%; /* Ocupa 100% da altura de #gameScreen */
+        height: 100%; /* Ocupa 100% da altura de #gameScreen menos o padding-top dele */
         padding: 0 5px; /* Reduz padding horizontal */
         box-sizing: border-box;
         flex-grow: 1;
@@ -1170,23 +1172,26 @@ body {
         flex-direction: column;
         gap: 10px; /* Reduz gap */
         padding: 6px 10px; /* Reduz padding */
-        margin: 0 auto 10px auto; /* Reduz margin-bottom */
+        margin: 0 auto 10px auto;
         width: 98%; /* Ocupa mais largura */
-        max-width: none; /* Remove max-width para flexibilidade total */
+        max-width: none;
+        flex-shrink: 0; /* IMPEDE QUE ENCOLHA. Garante sua altura. */
+        min-height: 60px; /* Altura mínima para o header */
+        box-sizing: border-box;
     }
     .progress-meter-container {
         width: 100%;
-        height: 22px; /* Altura do medidor menor */
+        height: 22px;
     }
     .progress-meter-text {
-        line-height: 22px; /* Ajusta line-height para a nova altura */
-        font-size: 0.85em; /* Fonte menor */
+        line-height: 22px;
+        font-size: 0.85em;
     }
     .life-crystals-container {
-        gap: 6px; /* Reduz gap entre corações */
+        gap: 6px;
     }
     .life-crystal {
-        width: 20px; /* Corações menores */
+        width: 20px;
         height: 20px;
     }
 
@@ -1322,6 +1327,7 @@ body {
         box-sizing: border-box;
         min-height: 70px; /* Altura mínima para garantir que o companheiro apareça */
         flex-shrink: 0; /* Impede que essa área encolha demais, mantendo-a visível */
+        flex-grow: 0; /* IMPEDE QUE CRESÇA, mantendo a altura mínima */
     }
 
     .magical-companion-img {
@@ -1407,7 +1413,7 @@ body {
     }
     .sanctuary-content {
         padding: 15px;
-        max-height: 60vh; /* Ajusta altura máxima */
+        max-height: 60vh;
         margin-bottom: 15px;
         flex-grow: 1;
     }
@@ -1416,12 +1422,12 @@ body {
         margin-bottom: 10px;
     }
     .sanctuary-gallery {
-        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); /* Fotos ainda menores */
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
         gap: 5px;
         padding: 2px;
     }
     .sanctuary-gallery img {
-        height: 50px; /* Altura fixa menor */
+        height: 50px;
     }
     .sanctuary-footer-message {
         font-size: 1.5em;
