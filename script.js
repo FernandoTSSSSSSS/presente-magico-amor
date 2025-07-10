@@ -85,8 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
             correctAnswer: "Minha casa",
             companionSpeechCorrect: "Isso mesmo, nosso cantinho!",
             companionSpeechWrong: "Ops! Pensa no lugar mais aconchegante...",
-            background: "quiz_bg_house.jpg",
-            questionImage: "quiz_photo_house.jpg"
+            background: "quiz_bg_house.jpeg",
+            questionImage: "quiz_photo_house.jpeg"
         },
         {
             question: "Quantos anos eu tenho?",
