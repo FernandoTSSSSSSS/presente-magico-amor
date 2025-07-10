@@ -421,13 +421,10 @@ body {
 }
 
 /* Animação de virar página */
-#gameScreen.page-turning .magical-page {
-    transform: translateX(-100%); /* Move as páginas para fora */
-    opacity: 0;
-}
+#gameScreen.page-turning .magical-page,
 #gameScreen.page-turn-in .magical-page {
-    transform: translateX(0%); /* Traz as páginas de volta */
-    opacity: 1;
+    transform: translateX(0%) !important;
+    opacity: 1 !important;
 }
 
 .page-inner-content {
@@ -1204,12 +1201,11 @@ body {
         flex-basis: auto;
         min-height: 40vh; /* Altura mínima para não ficar invisível */
         /* ***** AJUSTE CRÍTICO AQUI ***** */
-        /* Calcula a altura restante da .game-display-area, subtraindo os elementos fixos */
-        /* (header com padding/margin + área do companheiro com min-height/margin) */
-        /* Header: 60px (min-height) + 12px (padding) + 10px (margin-bottom) = 82px */
-        /* Companheiro: 70px (min-height) + 0px (margin-top) = 70px */
-        /* Total estimado fixo: 82px + 70px = 152px. Adicionando um buffer de segurança de 8px: 160px */
-        max-height: calc(100% - 160px); /* Isso garante espaço para os outros elementos */
+        /* Header (com padding/margin): ~82px */
+        /* Companheiro (min-height + padding): ~70px. Sem margin-top. */
+        /* Total fixo: 82px (header) + 70px (companion) = 152px */
+        /* Reduzindo mais 16px para ter um buffer maior e subir o companheiro */
+        max-height: calc(100% - 168px); /* Aumentado o valor subtraído para puxar mais para cima */
         flex-direction: column;
         margin: 0 auto;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra mais leve */
@@ -1320,9 +1316,8 @@ body {
 
     /* --- Companheiro Mágico --- */
     .magical-companion-area {
-        /* Remover position: relative/bottom/left para que ele flua naturalmente como item flex */
-        position: static; /* Volta para o fluxo normal */
-        margin-top: 0; /* Remove margin-top. O espaço será dado pelo flexbox */
+        position: static; /* Volta para o fluxo normal do flexbox */
+        margin-top: 0; /* Remove completamente margin-top. O espaçamento virá do fluxo natural. */
         padding: 5px; /* Adiciona um padding interno para o companheiro */
         display: flex;
         flex-direction: row;
@@ -1330,7 +1325,7 @@ body {
         justify-content: center; /* Centraliza a área */
         width: 100%;
         box-sizing: border-box;
-        min-height: 70px; /* Altura mínima garantida para o companheiro */
+        min-height: 70px; /* Altura mínima para garantir que o companheiro apareça */
         flex-shrink: 0; /* IMPEDE QUE ESSA ÁREA ENCOLHA. Garante visibilidade. */
         flex-grow: 0; /* IMPEDE QUE CRESÇA, mantendo a altura mínima */
     }
